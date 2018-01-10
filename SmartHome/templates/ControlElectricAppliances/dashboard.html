@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content %}
+<!-- Actual Body Part -->
+    <div class="container-fluid">
+      <!-- Breadcrumbs-->
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="#">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Online Components</li>
+      </ol>
+
+        <div class="row">
+        {% for k,module in espModelList.items %}
+        <div class="col-md-3">
+          <label class="btn btn-primary {{module.status.value}}">
+              <img class="module-image" src="{% static 'images/module/' %}{{k}}.jpg" alt="..." class="img-thumbnail img-check">
+              <p>{{k}}</p>
+           </label>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    <!-- End of Actual Body Part -->
+{% endblock %}
