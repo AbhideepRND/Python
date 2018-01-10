@@ -1,0 +1,219 @@
+
+==============  Django  ======================
+
+Model, views and Templates in Djingo create the core component of every application
+1. We need to install the Django in virtual environment, so that we don't find any conflict in version update and the application build in those Django version
+2. Installation of Django in virtual Environment follow the steps. All the steps are done in linux
+
+           a. create a folder where you create Django environments
+                        abhideep@abhideep:~$ mkdir django
+                        abhideep@abhideep:~$ cd django
+                        abhideep@abhideep:~django$ python3 -m venv django-env   	 ( Here 'venv' mean virtual environment and 'django-env' is the name of the environment.
+                        abhideep@abhideep:~django$ . django-env/bin/activate         (This command activate the virtual environment. So that we can install the django version in it)
+                        (django-env)abhideep@abhideep:~django$                       ( Now your virtual env is active. You can start install Django in it.
+                        (django-env)abhideep@abhideep:~django$ pip install Django    ( Now we are installing the Django)
+
+3. Create a new Django Project. To create a new project first we need to activate the Djingo environment then create a project
+                        abhideep@abhideep:~django$ . django-env/bin/activate
+                        (django-env)abhideep@abhideep:~django$ django-admin startproject <project name - IOT> (IOT name of the project)
+                        (django-env)abhideep@abhideep:~django$ cd IOT
+                        (django-env)abhideep@abhideep:~django/IOT$ python manage.py runserver (This will run the default Django server)
+
+            Note:- After create the Django project the folder structure something look like this
+                                                            django/IOT
+															|
+															|
+															|_______ IOT
+																    |
+																	|______ settings.py
+																	|
+																	|______ urls.py
+																	|
+																	|______ _init_.py
+																	|
+																	|______ wsgi.py
+															|
+															|_______ db.sqlite3
+															|
+															|_______ manage.py
+
+                        Here settings.py, urls.py and manage.py is the backbone of the Django application. dbsqlite3 is created during the server startup
+                        To import the classes of Django in pycharm we need to add the python in project interpretor. The location of the python will be in
+                                    /django/django-env/bin/python
+
+            b.         during add the url in urls.py file we can give a regular expression to requested url like
+                                    My requested URL is
+										http://localhost:8000/welcome              -------  url(r'^welcome$', welcome) - here r is the belong to raw string. We the python that the requested url should be welcome
+																or
+										http://localhost:8000/adminwelcome         -------  url(r'welcome$', welcome) - here we says that staring of url should be any thing but it end with 'welcome'
+																or
+										http://localhost:8000/adminwelcomedashboard ----  url(r'welcome', welcome) - here we says that the url should contain 'welcome' string
+                        urls.py ------
+                                    from django.conf.urls import url
+                                    from django.contrib import admin
+                                    from .views import welcome
+
+										urlpatterns = [
+                                                url(r'^admin/', admin.site.urls),
+											    url(r'^$', welcome)                ------ Here we says default page will be welcome mean http://localhost:8000 - it will open the welcome page
+                                    ]
+                        views.py---------
+                                    from django.http import HttpResponse
+
+									def welcome(request):
+                                                return HttpResponse("Hello, World!")
+                   
+            c. Flow of the request
+
+                i. When the request comes to Django server  it first find the url pattern in urls.py file
+               ii. Then Django redirect the request to particular view page. In this case 'welcome' get called in views.py file.
+              iii. The method return the 'HttpResponse' to browser
+
+              Here Django view is known as Controller in MVC pattern
+4. Apps, Models and Migration 
+
+			Here we will see the ORM framework of Python. which is model.
+
+            a. Migration keep the db structure in sync with the code. If we change the model that need to be sync with the database table. So we need to run the
+                        migration command over here.
+            b. Models is a python class that make the data persistence.  
+            c. Apps - In Django we can create multiple app i.e similar to micro - services. Where we create the app for every modules. Like in banking application
+                                                we have modules Loans, Credit Cards, Banking Service. So we can create three app that will contain its own views, urls, templates
+            a. Migrations :-
+						Start migrations. During server startup we seen that "you have 13 unapplied migrations". This mean there are 13 models that meed to be
+						migrate to database/ create a table structure in data base. To do that we need to follow the following commands
+							i. (django-env)abhideep@abhideep:~django/IOT$ python manage.py showmigration  ( This command will show the list of model that nedd to be migrate)
+						   ii. (django-env)abhideep@abhideep:~django/IOT$ python manage.py migrate ( adter this command it will create table in sqllite database)
+            b. Apps :-
+					To create the app in Django we need to run the command
+					    i. (django-env)abhideep@abhideep:~django/IOT$ python manage.py startapp esp8266
+					   ii. (django-env)abhideep@abhideep:~django/IOT$ cd esp8266
+					  iii. (django-env)abhideep@abhideep:~IOT/esp8266$ ls
+
+													   IOT/esp8266
+														|
+														|
+														|_______ migrations
+														|
+														|_______ apps.py
+														|
+														|_______ admin.py
+														|
+														|_______ _init_.py
+														|
+														|_______ models.py
+														|
+														|_______ tests.py
+														|
+														|_______ views.py
+
+					Note:- To include this module in Django we need to add this application on settings.py
+														INSTALLED_APPS = [
+																	'django.contrib.admin',
+																	'django.contrib.auth',
+																	'django.contrib.contenttypes',
+																	'django.contrib.sessions',
+																	'django.contrib.messages',
+																	'django.contrib.staticfiles',
+																	'esp8266'
+                                                                        ]
+            c. Models:-
+				1. We create the models in models.py and all models need to extends the models.Model. Then it belong to official Django model and refer a table in database
+				2.
+							import django.db import models
+							import django.contrib.auth.models import User
+
+							class Employee(models.Model):
+										emp_id = models.AutoField(primary_key=True)  # This will indicate a integer column 'emp_id' in Payroll table. and it is a primary key and auto incremented
+										y = models.IntegerField() 
+										name = models.CharField(max_lenght=40, blank=false)   # By default table will not accept the null event it cannot be blank
+										createdBy = models.ForeignKey(User,
+																		related_name="createdBy")
+
+										createdTime = models.DateTimeField(auto_now_add = True)
+										updatedBy = models.ForeignKey(User,
+																		related_name="updatedBy")
+										updatedTime = models.DateTimeField(auto_now_add = True)
+
+							class Salary(models.Model):
+										sal_id = models.AutoField(primary_key=True) 
+										amount = models.DecimalField(max_digit=10, decimal_place=2, default=0)   # Here we create the decimal field which hold the salary. Max lenght is 10 and decimal 2
+										createdBy = models.ForeignKey(User,
+																			related_name="createdBy")
+
+										createdTime = models.DateTimeField(auto_now_add = True)
+										updatedBy = models.ForeignKey(User,
+																			related_name="updatedBy")
+
+										updatedTime = models.DateTimeField(auto_now_add = True)
+										emp_id = models.ForeignKey(Employee, related_name="emp_id")
+
+					Now we are going to run the Migrations
+   			 			i. (django-env)abhideep@abhideep:~django/IOT$ python manage.py makemigrations  ( It will determine what are the changes that need to be done in database). It will create a like 0001_initial.py in migration folder
+					   ii. (django-env)abhideep@abhideep:~django/IOT$ python manage.py sqlmigrate esp8266 0001 ( It will show the sql statement that will fire during migration)
+					  iii. (django-env)abhideep@abhideep:~django/IOT$ python manage.py migrate                                     ( It will run the migration)
+
+						Situation :- New need to add column. So In that scenario we need to delete all the record the alter the table and add a column.
+															or
+									We can add a column by providing a default value
+/home/liveyoung/django/django-env/bin
+									like :-
+									status = model.CharField(max_lenght=5, default='Active')
+
+
+                        https://stackoverflow.com/questions/21454/specifying-a-mysql-enum-in-a-django-model --- Need to check
+
+5. Django Admin site
+																					  
+			Auto generate UI to edit data
+			Registering Models with admin site
+			Create Super user 	
+			
+			Admin site is already install with Django. We will find the config in settings.py	
+																					  
+@Unicode in python string  Need to cover letter (Admin)
+																					  
+6. Model Template View
+		
+		Django template render any html/text/xml file. 
+		Template should go inside the 'templates' folder inside the app
+		TO view html page we use django.shotcuts import render
+				The render says not to directly respond but deligate towards a template.
+		Lets start with an example where we want to show the home.html on URL - localhost:8000/esp8266/home
+																					  
+			To do that we map all the request through urls.py which contain the home path
+									urls(r'dashboard',dashboard) - it link to the dashboard view i.e the controller
+																					  
+			Now to fix the esp8266 domain path we need to declare the path in project url.
+									like :- url(r'^esp8266/', include('esp8266.urls'))						  		
+										 
+			esp8266/view.py------							 
+				from django.shortcuts import render
+
+				# Create your views here.
+
+				def dashboard(request):
+					return render(request, "esp8266/home.html")
+						
+																					  
+			esp8266/urls.py-------
+				from django.conf.urls import url
+				from django.urls import path
+
+				from .views import dashboard	
+
+				urlpatterns =[
+					url(r'dashboard', dashboard)
+				]
+				
+			IOT/urls.py
+				urlpatterns = [
+					path('admin/', admin.site.urls),
+					url(r'^welcome', welcome), # here r denote the regular expression in url.^is the starting point and $- is the end point
+					url(r'^$', login),
+					url(r'^esp8266/', include('esp8266.urls'))
+				]
+			
+		
+	Now interaction with database
+			
