@@ -27,7 +27,8 @@ class ReadSaxElement(ContentHandler):
             self.currentModule.channel = Channel(None, None)
 
         if ("pin" == name):
-            self.currentModule.setPin(Pin(attrs.get('no')))
+            pin =  Pin(attrs.get('no'))
+            self.currentModule.setPin(pin)
             self.currentElement = name
 
     def endElement(self, tag):
@@ -37,7 +38,7 @@ class ReadSaxElement(ContentHandler):
             self._charBuffer = [];
         if 'pin' == tag == self.currentElement:
             pin = self.currentModule.pin[self.attrs.get('no')]
-            pin.description = self._charBuffer[0]
+            pin.description = ''.join(self._charBuffer).strip()
             self._charBuffer = [];
 
     def characters(self, content):
@@ -56,3 +57,8 @@ class ReadSaxElement(ContentHandler):
         datasource = open(filepath, 'r')
         saxparser.parse(datasource)
         return saxReader.module
+#data = ReadSaxElement.loadXmlConfig(object, "module_config.xml")
+
+#for i,j in data.items():
+#    for k,j in j.pin.items():
+#        print(j.description)

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content %}
+<!-- Actual Body Part -->
+    <div class="container-fluid">
+      <!-- Breadcrumbs-->
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="#">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Module Details</li>
+      </ol>
+      <div class="row">
+        <div class="col-sm-5 col-md-5 col-xs-5">
+          <div class="thumbnail" style="border:none; background:white;">
+            <div class="col-sm-6 col-md-6 col-xs-12 image-container">
+              <img src="{% static 'images/module/' %}{{moduleDetails.name}}.jpg"  style="height:200px; margin-left:-15px;" />
+            </div>
+            <div class="col-sm-6 col-md-6 col-xs-12">
+              <h3>{{moduleDetails.name}}</h3>
+              <p style="font-size:10px; color:#03225C;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit adipiscing blandit. Aliquam placerat, velit a fermentum fermentum, mi felis vehicula justo, a dapibus quam augue non massa.   </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-5 col-md-5 col-xs-5">
+          <div style="margin:20px;"></div>
+          {% for pin,value in moduleDetails.pin.items %}
+          <div class="row parent-switch">
+            <div class="switch">
+              <lable>{{value.description}}</lable>
+            </div>
+              &nbsp;
+            <div class="onoffswitch" >
+                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="{{value.description}}" checked >
+                <label class="onoffswitch-label" for="{{value.description}}">
+                    <span class="onoffswitch-inner"></span>
+                    <span class="onoffswitch-switch"></span>
+                </label>
+            </div>
+          </div>
+
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+{% endblock %}

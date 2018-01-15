@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 class Employee(models.Model):
     emp_id = models.AutoField(
         primary_key=True)  # This will indicate a integer column 'emp_id' in Payroll table. and it is a primary key and auto incremented
@@ -28,3 +29,10 @@ class Salary(models.Model):
 
     updatedTime = models.DateTimeField(auto_now_add=True)
     emp_id = models.ForeignKey(Employee, related_name="sal_emp_id_fk", on_delete=models.CASCADE)
+
+
+class Module(object):
+
+    def __init__(self, moduleName, pin):
+        self.moduleName = moduleName
+        self.pin = pin

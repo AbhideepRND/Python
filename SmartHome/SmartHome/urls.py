@@ -22,6 +22,7 @@ from .view import login
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^$', login),
-    url(r'^home/', include('ControlElectricAppliances.urls'))
+    url(r'^home/', include('ControlElectricAppliances.urls')),
+    url(r'^service/', include('RestService.urls'))
 ]
 

@@ -15,7 +15,7 @@
         {% for k,module in espModelList.items %}
         <div class="col-md-3">
           <label class="btn btn-primary {{module.status.value}}">
-              <img class="module-image" src="{% static 'images/module/' %}{{k}}.jpg" alt="..." class="img-thumbnail img-check">
+              <img class="module-image" src="{% static 'images/module/' %}{{k}}.jpg" alt="..." class="img-thumbnail img-check" key-id="{{k}}">
               <p>{{k}}</p>
            </label>
         </div>
