@@ -11,7 +11,7 @@ from django.http import JsonResponse
 # Create your views here.
 class ControlModule(APIView):
     def get(self, request, format=None):
-        users = Module("Home", 119)
+        users = Module("Home", 119,False)
         serializer = ModuleSerializer(users)
         print(serializer.data)
 
@@ -22,5 +22,6 @@ class ControlModule(APIView):
         module = ModuleSerializer(data=data)
         if module.is_valid():
             serialData = ModuleSerializer(module.save())
-            return JsonResponse(serialData.data, status=status.HTTP_200_OK)
+            print(serialData.data)
+            return JsonResponse(serialData.data, status=status.HTTP_200_OK, content_type="application/json")
         return Response(status=status.HTTP_400_BAD_REQUEST)

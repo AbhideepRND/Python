@@ -42,7 +42,7 @@ class ReadSaxElement(ContentHandler):
             self._charBuffer = [];
 
     def characters(self, content):
-        matched = re.match(r'(\n|\t){1,}', content, re.I | re.M)
+        matched = re.match(r'(\n|\t| ){1,}', content, re.I | re.M)
         if matched == None:
             self._charBuffer.append(content)
 
@@ -57,8 +57,12 @@ class ReadSaxElement(ContentHandler):
         datasource = open(filepath, 'r')
         saxparser.parse(datasource)
         return saxReader.module
+
 #data = ReadSaxElement.loadXmlConfig(object, "module_config.xml")
 
 #for i,j in data.items():
-#    for k,j in j.pin.items():
-#        print(j.description)
+ #   print(j.channel.inbound)
+  #  print(j.channel.outbound)
+
+#    for k,p in j.pin.items():
+ #       print(p.description)

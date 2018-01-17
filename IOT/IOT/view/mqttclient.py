@@ -4,5 +4,5 @@ import paho.mqtt.client as mqtt
 
 client = mqtt.Client()
 client.connect("localhost",1883,60)
-client.publish("192.168.1.1/data", "sfbshfjsbvdfhvsjfhsvdjfvjsdvfsjdfvjvsjfvsdvfvsjvfj!");
+client.publish("room2/msg/inbound", "{status:'Active',pin:15}");
 client.disconnect();

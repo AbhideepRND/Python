@@ -17,7 +17,7 @@
               <img src="{% static 'images/module/' %}{{moduleDetails.name}}.jpg"  style="height:200px; margin-left:-15px;" />
             </div>
             <div class="col-sm-6 col-md-6 col-xs-12">
-              <h3>{{moduleDetails.name}}</h3>
+              <h3><label id="moduleName">{{moduleDetails.name}}</label></h3>
               <p style="font-size:10px; color:#03225C;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit adipiscing blandit. Aliquam placerat, velit a fermentum fermentum, mi felis vehicula justo, a dapibus quam augue non massa.   </p>
             </div>
           </div>
@@ -31,7 +31,7 @@
             </div>
               &nbsp;
             <div class="onoffswitch" >
-                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="{{value.description}}" checked >
+                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="{{value.description}}" identity="{{value.pin_no}}" checked >
                 <label class="onoffswitch-label" for="{{value.description}}">
                     <span class="onoffswitch-inner"></span>
                     <span class="onoffswitch-switch"></span>
