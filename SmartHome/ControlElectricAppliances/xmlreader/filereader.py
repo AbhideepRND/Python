@@ -17,7 +17,7 @@ class ReadSaxElement(ContentHandler):
         self.attrs = attrs
         if ("module" == name):
             currentModule = Module(attrs.get('name'), attrs.get('ip'), attrs.get('role').split(','))
-            currentId = attrs.get('name')
+            currentId = int(attrs.get('ip').split('.')[3])
             self.module[currentId] = currentModule
             self.currentId = currentId
             self.currentModule = currentModule

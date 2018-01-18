@@ -14,8 +14,9 @@ def dashboard(request):
 
 
 def moduledetails(request):
-    key = request.GET.get('key-id')
-    moduleDetails = config.espModuleConfig[key]
+    key = int(request.GET.get('key'))
+    moduleDetails = config.espModuleConfig.get(key)
     return render(request, "ControlElectricAppliances/moduledetails.html", {
-        "moduleDetails": moduleDetails
+        "moduleDetails": moduleDetails,
+        "key":key
     })

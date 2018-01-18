@@ -3,7 +3,9 @@ from django.db import models
 
 class Module(object):
 
-    def __init__(self, moduleName, pin, pinStatus):
+    def __init__(self, moduleName, pin, pinStatus, key, error):
         self.moduleName = moduleName
         self.pin = pin
         self.pinStatus=pinStatus
+        self.key=key
+        self.error=error

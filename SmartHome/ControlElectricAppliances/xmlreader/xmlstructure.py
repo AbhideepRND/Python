@@ -33,5 +33,5 @@ class Status(Enum):
     Active = 'module-active'
 
 class PinStatus(Enum):
-    High = 'High'
-    Low = 'Low'
+    High = True
+    Low = False

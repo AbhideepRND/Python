@@ -6,22 +6,42 @@ from rest_framework.parsers import JSONParser
 from rest_framework.renderers import JSONRenderer
 from .models import Module
 from django.http import JsonResponse
+from SmartHome import config
 
 
 # Create your views here.
 class ControlModule(APIView):
     def get(self, request, format=None):
-        users = Module("Home", 119,False)
-        serializer = ModuleSerializer(users)
-        print(serializer.data)
-
+        try:
+            key = int(request.query_params.get('key', None))
+            module_details = config.espModuleConfig[key]
+            pin_list=[]
+            for k,v in module_details.pin.items():
+                pin_list.append(Module(module_details.name, k, v.status, key, None))
+            serializer = ModuleSerializer(pin_list, many=True)
+            print(serializer.data)
+        except Exception as e:
+            serializer = ModuleSerializer(Module(None, None, None,key, str(e)))
+            return JsonResponse(serializer.data, status=status.HTTP_400_BAD_REQUEST, content_type="application/json")
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request, format=None):
         data = JSONParser().parse(request)
         module = ModuleSerializer(data=data)
-        if module.is_valid():
-            serialData = ModuleSerializer(module.save())
-            print(serialData.data)
-            return JsonResponse(serialData.data, status=status.HTTP_200_OK, content_type="application/json")
+        try:
+            if module.is_valid():
+                serialData = ModuleSerializer(module.save())
+                print(serialData.data)
+                return JsonResponse(serialData.data, status=status.HTTP_200_OK, content_type="application/json")
+        except Exception as e:
+                print(e.args)
         return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+#{"error":null,
+#"key":10,
+#"moduleName":"Bed Room",
+#"pinStatus":true,
+#"pin":18}
