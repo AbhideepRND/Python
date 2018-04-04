@@ -20,8 +20,8 @@ class Subscriber(Thread):
         client.subscribe(self.url)
 
     def on_message(self, client, userdata, msg):
-        print(msg.payload)
-        print(str(self.ipaddress))
+        print("Message --- "+str(msg.payload))
+        print("Address "+str(self.ipaddress))
 
     def __del__(self):
         self.client.disconnect()

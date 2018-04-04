@@ -7,6 +7,8 @@ from rest_framework.renderers import JSONRenderer
 from .models import Module
 from django.http import JsonResponse
 from SmartHome import config
+import json
+from django.core import serializers
 
 
 # Create your views here.
@@ -35,7 +37,9 @@ class ControlModule(APIView):
                 return JsonResponse(serialData.data, status=status.HTTP_200_OK, content_type="application/json")
         except Exception as e:
                 print(e.args)
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+                data['error']=str(e.args[0])
+                serializer = ModuleSerializer(module.errorObj(data))
+                return JsonResponse(serializer.data, safe=False, status=status.HTTP_400_BAD_REQUEST, content_type="application/json")
 
 
 

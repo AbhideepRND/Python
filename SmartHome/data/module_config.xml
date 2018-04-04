@@ -2,18 +2,18 @@
 Configuration of ESP8266 with role access and channel. You can provided the GPIO pin and its description.
 -->
 <root>
-    <module name="Guest Room" ip="192.168.0.12" role="IOT_ADMIN,IOT_USER">
+    <module name="Guest Room" ip="192.168.1.30" role="IOT_ADMIN,IOT_USER">
         <channel>
             <inbound>room1/msg/inbound</inbound>
             <outbound>room1/msg/outbound</outbound>
         </channel>
-        <pin no="15">Left Light</pin>
-        <pin no="16">Right Light</pin>
-        <pin no="17">Fan</pin>
-        <pin no="18">Dim Light</pin>
-        <pin no="20">5 Pin Socket</pin>
+        <pin no="14">Left Light</pin>
+        <pin no="13">Right Light</pin>
+        <pin no="12">Fan</pin>
+        <pin no="13">Dim Light</pin>
+        <pin no="10">5 Pin Socket</pin>
     </module>
-    <module name="Bed Room" ip="192.168.0.10" role="IOT_ADMIN,IOT_USER">
+    <module name="Bed Room" ip="192.168.0.31" role="IOT_ADMIN,IOT_USER">
         <channel>
             <inbound>room2/msg/inbound</inbound>
             <outbound>room2/msg/outbound</outbound>
